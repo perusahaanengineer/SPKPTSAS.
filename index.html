@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPV Command Center - v1.7 (Search)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        body {
+            background: #0f0c29;
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- STYLES NAVBAR & SIDEBAR --- */
+        .btn-menu-trigger {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 10px;
+            padding: 10px 15px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+        .btn-menu-trigger:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+
+        .glass-sidebar {
+            background: rgba(15, 12, 41, 0.95) !important;
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            z-index: 1045; 
+        }
+
+        .swal2-container { z-index: 2000 !important; }
+
+        .offcanvas-header { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-close-white { filter: invert(1); }
+
+        .nav-link-custom {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link-custom:hover {
+            background: linear-gradient(90deg, rgba(118, 75, 162, 0.4) 0%, transparent 100%);
+            color: #fff;
+            padding-left: 25px;
+        }
+
+        .nav-link-custom i { width: 30px; text-align: center; margin-right: 10px; }
+        .version-text { font-size: 0.8rem; color: #6c757d; margin-top: auto; padding: 20px; text-align: center; }
+        
+        .sidebar-divider {
+            padding: 15px 20px 5px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #6c757d;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* --- EXISTING STYLES --- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        h2, h4, h5 { text-shadow: 0 0 10px rgba(118, 75, 162, 0.5); }
+
+        .form-control, .form-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #764ba2;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(118, 75, 162, 0.3);
+        }
+        
+        /* Placeholder color */
+        ::placeholder { color: rgba(255, 255, 255, 0.3) !important; }
+
+        option { background-color: #302b63; color: white; }
+
+        .btn-3d {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-3d:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(118, 75, 162, 0.4); }
+
+        .badge-priority-Tinggi { background: rgba(255, 59, 48, 0.2); color: #ff3b30; border: 1px solid #ff3b30; }
+        .badge-priority-Sedang { background: rgba(255, 149, 0, 0.2); color: #ff9500; border: 1px solid #ff9500; }
+        .badge-priority-Rendah { background: rgba(52, 199, 89, 0.2); color: #34c759; border: 1px solid #34c759; }
+
+        .task-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .task-item:hover { background: rgba(255, 255, 255, 0.08); transform: scale(1.02); }
+
+        .stats-box { text-align: center; padding: 15px; border-radius: 15px; background: rgba(0,0,0,0.2); }
+        
+        .btn-action { margin-right: 5px; border-radius: 8px; }
+        .doc-number { font-family: 'Courier New', monospace; letter-spacing: 1px; color: #0dcaf0; }
+        
+        .score-badge-100 { color: #00ff88; font-weight: bold; text-shadow: 0 0 10px rgba(0, 255, 136, 0.3); }
+        .score-badge-min { color: #ff4d4d; font-weight: bold; text-shadow: 0 0 10px rgba(255, 77, 77, 0.3); }
+        
+        .edit-link {
+            color: #6c757d; 
+            margin-left: 8px; 
+            cursor: pointer; 
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .edit-link:hover { color: #ffc107; transform: scale(1.1); }
+        
+        .timeline-date { font-size: 0.9rem; color: #adb5bd; margin-bottom: 3px; }
+        .timeline-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #6c757d; font-weight: bold; }
+
+        .app-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(118, 75, 162, 0.6);
+            animation: float 6s ease-in-out infinite;
+            background-color: #fff;
+        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+
+        /* Badge Mode Status */
+        .mode-badge {
+            background-color: #ffc107;
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+        }
+        .mode-badge.karyawan { background-color: #0dcaf0; box-shadow: 0 0 10px rgba(13, 202, 240, 0.5); }
+    </style>
+</head>
+<body>
+
+<button class="btn btn-menu-trigger" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+    <i class="fas fa-bars fa-lg"></i>
+</button>
+
+<div class="offcanvas offcanvas-start glass-sidebar" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title fw-bold" id="sidebarMenuLabel"><i class="fas fa-cog me-2"></i>MENU UTAMA</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column p-0">
+        
+        <div class="sidebar-divider">Ganti Mode</div>
+        <a class="nav-link-custom text-warning" onclick="switchMode('SPV')">
+            <i class="fas fa-user-tie"></i> Mode Supervisor
+        </a>
+        <a class="nav-link-custom text-info" onclick="switchMode('Karyawan')">
+            <i class="fas fa-hard-hat"></i> Mode Karyawan
+        </a>
+
+        <div class="sidebar-divider mt-3">Aplikasi</div>
+        <div class="mt-2">
+            <a class="nav-link-custom" onclick="showSettings()">
+                <i class="fas fa-sliders-h"></i> Pengaturan
+            </a>
+            <a class="nav-link-custom" onclick="showPrivacyPolicy()">
+                <i class="fas fa-user-shield"></i> Kebijakan Privasi
+            </a>
+            <a class="nav-link-custom" onclick="showUserPolicy()">
+                <i class="fas fa-users-cog"></i> Kebijakan Pengguna
+            </a>
+            <a class="nav-link-custom" onclick="showAbout()">
+                <i class="fas fa-info-circle"></i> About
+            </a>
+        </div>
+        
+        <div class="version-text">
+            <hr class="border-secondary">
+            <p class="mb-0 fw-bold text-white">SPK SAS v1.7</p>
+            <small class="text-white-50">Made by: AppWebiatecth</small>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 text-center">
+            <img id="companyLogo" src="SAS.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2920/2920329.png'" alt="Company Logo" class="app-logo">
+            <h4 class="fw-bold mb-2 text-uppercase" style="letter-spacing: 2px;">SPK COMMAND CENTER PT. SUPER ANDALAS STEEL</h4>
+            <div id="modeBadgeDisplay" class="mode-badge">Supervisor Mode</div>
+        </div>
+    </div>
+
+    <div class="row mb-4" id="statsRow">
+        <div class="col-md-4 mb-3"><div class="glass-card stats-box text-white"><h3 id="totalTasks">0</h3><small>Total Pekerjaan</small></div></div>
+        <div class="col-md-4 mb-3"><div class="glass-card stats-box text-warning"><h3 id="pendingTasks">0</h3><small>Dalam Proses</small></div></div>
+        <div class="col-md-4 mb-3"><div class="glass-card stats-box text-success"><h3 id="completedTasks">0</h3><small>Selesai</small></div></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-5 mb-4" id="createTaskSection">
+            <div class="glass-card">
+                <h4 class="mb-4"><i class="fas fa-plus-circle me-2"></i>Buat Perintah Baru</h4>
+                <form id="orderForm">
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Nomor Dokumen</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-secondary text-white-50"><i class="fas fa-file-alt"></i></span>
+                            <input type="text" id="docNumber" class="form-control" placeholder="Cth: SPK-2024-001" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Judul Pekerjaan</label>
+                        <input type="text" id="jobTitle" class="form-control" placeholder="Cth: Maintenance Server" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Nama Karyawan</label>
+                        <input type="text" id="technician" class="form-control" placeholder="Nama Karyawan" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label text-white-50">Prioritas</label>
+                            <select id="priority" class="form-select">
+                                <option value="Rendah">Rendah</option>
+                                <option value="Sedang">Sedang</option>
+                                <option value="Tinggi">Tinggi</option>
+                            </select>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label text-white-50">Deadline</label>
+                            <input type="date" id="deadline" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Instruksi Detail</label>
+                        <textarea id="description" class="form-control" rows="3" placeholder="Deskripsi tugas..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-3d w-100"><i class="fas fa-paper-plane me-2"></i> Kirim Perintah</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-7" id="taskListSection">
+            <div class="glass-card" style="min-height: 500px;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0"><i class="fas fa-list-ul me-2"></i>Daftar Pekerjaan</h4>
+                    <div id="adminTools">
+                        <button class="btn btn-sm btn-success me-1" onclick="backupExcel()" title="Download Excel"><i class="fas fa-file-excel"></i> Backup</button>
+                        <label class="btn btn-sm btn-outline-warning me-1" title="Restore Excel" style="cursor: pointer;">
+                            <i class="fas fa-upload"></i> Restore
+                            <input type="file" id="restoreFile" accept=".xlsx, .xls" style="display: none;" onchange="restoreExcel(this)">
+                        </label>
+                        <button class="btn btn-sm btn-outline-danger" onclick="clearAllData()" title="Reset Semua"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-transparent border-secondary text-white-50"><i class="fas fa-search"></i></span>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Cari Nama Karyawan...">
+                </div>
+
+                <div id="taskListContainer" style="max-height: 600px; overflow-y: auto; padding-right: 10px;">
+                    <div class="text-center text-white-50 mt-5" id="emptyState">
+                        <i class="fas fa-clipboard-check fa-3x mb-3"></i>
+                        <p>Belum ada perintah kerja aktif.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => { 
+        initMode(); // Cek mode saat load
+        loadTasks(); 
+        updateStats(); 
+    });
+
+    // --- SEARCH LISTENER ---
+    document.getElementById('searchInput').addEventListener('input', () => {
+        loadTasks(); // Reload tasks saat mengetik
+    });
+
+    // --- HELPER UNTUK TUTUP SIDEBAR ---
+    function closeSidebar() {
+        const sidebarEl = document.getElementById('sidebarMenu');
+        const sidebar = bootstrap.Offcanvas.getInstance(sidebarEl); 
+        if (sidebar) {
+            sidebar.hide();
+        }
+    }
+
+    // --- MODE SWITCHER LOGIC WITH PASSWORD ---
+    function initMode() {
+        const mode = localStorage.getItem('appMode') || 'SPV';
+        applyModeUI(mode);
+    }
+
+    function switchMode(targetMode) {
+        closeSidebar();
+        setTimeout(() => {
+            if (targetMode === 'SPV') {
+                Swal.fire({
+                    title: 'Keamanan Supervisor',
+                    text: 'Masukkan kata sandi:',
+                    input: 'password',
+                    inputAttributes: {
+                        autocapitalize: 'off',
+                        placeholder: 'Sandi Default: admin123'
+                    },
+                    background: '#1f2687', color: '#fff', confirmButtonColor: '#667eea',
+                    showCancelButton: true,
+                    confirmButtonText: 'Masuk',
+                    preConfirm: (password) => {
+                        // GANTI SANDI DI SINI
+                        if (password === 'adminpipa2025' || password === 'admin123') {
+                            return true;
+                        } else {
+                            Swal.showValidationMessage('Sandi salah!')
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        commitSwitch(targetMode);
+                    }
+                });
+            } else {
+                commitSwitch(targetMode);
+            }
+        }, 300);
+    }
+
+    function commitSwitch(mode) {
+        localStorage.setItem('appMode', mode);
+        applyModeUI(mode);
+        const title = mode === 'SPV' ? 'Mode Supervisor Aktif' : 'Mode Karyawan Aktif';
+        const msg = mode === 'SPV' ? 'Anda memiliki akses penuh.' : 'Akses dibatasi hanya untuk update status.';
+        Swal.fire({
+            icon: 'info', title: title, text: msg,
+            background: '#1f2687', color: '#fff',
+            timer: 2000, showConfirmButton: false
+        });
+        loadTasks();
+    }
+
+    function applyModeUI(mode) {
+        const createSection = document.getElementById('createTaskSection');
+        const listSection = document.getElementById('taskListSection');
+        const adminTools = document.getElementById('adminTools');
+        const badge = document.getElementById('modeBadgeDisplay');
+
+        if (mode === 'Karyawan') {
+            createSection.style.display = 'none'; 
+            listSection.className = 'col-lg-12'; 
+            adminTools.style.display = 'none'; 
+            badge.innerText = 'Karyawan Mode';
+            badge.classList.add('karyawan');
+        } else {
+            createSection.style.display = 'block';
+            listSection.className = 'col-lg-7';
+            adminTools.style.display = 'block';
+            badge.innerText = 'Supervisor Mode';
+            badge.classList.remove('karyawan');
+        }
+    }
+
+    // --- MENU HANDLERS ---
+    function showSettings() { 
+        closeSidebar(); setTimeout(() => { Swal.fire({ title: 'Pengaturan', html: '<p>Pengaturan Sistem</p>', background: '#1f2687', color: '#fff' }); }, 300);
+    }
+    function showPrivacyPolicy() { 
+        closeSidebar(); setTimeout(() => { Swal.fire({ title: 'Kebijakan Privasi', text: 'Data aman di Local Storage.', background: '#1f2687', color: '#fff' }); }, 300);
+    }
+    function showUserPolicy() { 
+        closeSidebar(); setTimeout(() => { Swal.fire({ title: 'Kebijakan Pengguna', text: 'Gunakan dengan bijak.', background: '#1f2687', color: '#fff' }); }, 300);
+    }
+    function showAbout() { 
+        closeSidebar(); setTimeout(() => { Swal.fire({ title: 'Tentang Aplikasi', text: 'SPV Command Center v1.7', background: '#1f2687', color: '#fff' }); }, 300);
+    }
+
+    // --- CORE LOGIC ---
+    const orderForm = document.getElementById('orderForm');
+    const taskListContainer = document.getElementById('taskListContainer');
+    const emptyState = document.getElementById('emptyState');
+
+    orderForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const newTask = {
+            id: Date.now(),
+            docNumber: document.getElementById('docNumber').value,
+            title: document.getElementById('jobTitle').value,
+            technician: document.getElementById('technician').value,
+            priority: document.getElementById('priority').value,
+            deadline: document.getElementById('deadline').value,
+            description: document.getElementById('description').value,
+            status: 'Pending',
+            createdAt: new Date().toLocaleDateString('id-ID'),
+            startedAtDate: null,
+            completedAtDate: null,
+            completedTimestamp: null,
+            score: null
+        };
+        saveTask(newTask);
+        orderForm.reset();
+        Swal.fire({ icon: 'success', title: 'Berhasil!', text: `Dokumen ${newTask.docNumber} telah dibuat.`, background: '#1f2687', color: '#fff', confirmButtonColor: '#667eea' });
+        loadTasks(); updateStats();
+    });
+
+    function saveTask(task) {
+        let tasks = JSON.parse(localStorage.getItem('spvTasks')) || [];
+        tasks.push(task);
+        localStorage.setItem('spvTasks', JSON.stringify(tasks));
+    }
+
+    function loadTasks() {
+        let tasks = JSON.parse(localStorage.getItem('spvTasks')) || [];
+        const currentMode = localStorage.getItem('appMode') || 'SPV';
+        
+        // --- LOGIKA PENCARIAN (SEARCH) ---
+        const searchText = document.getElementById('searchInput').value.toLowerCase();
+        
+        // Filter tasks based on search text (technician name)
+        const filteredTasks = tasks.filter(task => 
+            task.technician.toLowerCase().includes(searchText)
+        );
+
+        taskListContainer.innerHTML = '';
+        if (filteredTasks.length === 0) {
+            taskListContainer.appendChild(emptyState); 
+            emptyState.style.display = 'block'; 
+            if(searchText) emptyState.querySelector('p').innerText = "Tidak ditemukan karyawan dengan nama tersebut.";
+            else emptyState.querySelector('p').innerText = "Belum ada perintah kerja aktif.";
+            return;
+        } else { 
+            emptyState.style.display = 'none'; 
+        }
+
+        filteredTasks.sort((a, b) => (a.priority === 'Tinggi' ? -1 : 1));
+
+        filteredTasks.forEach(task => {
+            const priorityClass = `badge-priority-${task.priority}`;
+            let statusBadge = '', rowColor = '', btnAction = '';
+
+            // Status Logic
+            if(task.status === 'Pending') {
+                statusBadge = '<span class="badge bg-secondary">Pending</span>';
+                rowColor = 'border-left: 5px solid #6c757d;';
+                btnAction = `<button class="btn btn-primary btn-sm btn-action" onclick="setStartDate(${task.id})"><i class="fas fa-play"></i> Mulai</button>`;
+            } else if (task.status === 'Process') {
+                statusBadge = '<span class="badge bg-warning text-dark">Dikerjakan</span>';
+                rowColor = 'border-left: 5px solid #ffc107;';
+                btnAction = `<button class="btn btn-success btn-sm btn-action" onclick="setFinishDate(${task.id})"><i class="fas fa-check"></i> Selesai</button>`;
+            } else {
+                statusBadge = '<span class="badge bg-success">Selesai</span>';
+                rowColor = 'border-left: 5px solid #198754; opacity: 0.8;';
+                btnAction = `<span class="text-success small fw-bold"><i class="fas fa-check-circle"></i> Tuntas</span>`;
+            }
+
+            let scoreHtml = '';
+            if (task.status === 'Done' && task.score !== null) {
+                if(task.score == 100) scoreHtml = `<span class="score-badge-100 ms-2"><i class="fas fa-star"></i> 100</span>`;
+                else scoreHtml = `<span class="score-badge-min ms-2"><i class="fas fa-exclamation-triangle"></i> -10</span>`;
+            }
+
+            const startDisplay = task.startedAtDate ? formatDateIndo(task.startedAtDate) : '-';
+            const finishDisplay = task.completedAtDate ? formatDateIndo(task.completedAtDate) : '-';
+            const deadlineDisplay = formatDateIndo(task.deadline);
+
+            // CONDITIONAL BUTTONS
+            let deleteButton = '';
+            let editDateButton = '';
+
+            if (currentMode === 'SPV') {
+                deleteButton = `<button class="btn btn-danger btn-sm btn-action" onclick="deleteTask(${task.id})"><i class="fas fa-trash"></i></button>`;
+                editDateButton = `<a onclick="editDate(${task.id}, 'deadline')" class="edit-link" title="Reschedule & Reset"><i class="fas fa-calendar-alt"></i></a>`;
+            }
+
+            const html = `
+                <div class="task-item" style="${rowColor}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="badge bg-info bg-opacity-10 text-info border border-info mb-2 doc-number"><i class="fas fa-file-alt me-1"></i> ${task.docNumber}</span>
+                            <h5 class="fw-bold mb-1 mt-1">${task.title}</h5>
+                            <small class="text-white-50"><i class="fas fa-user me-1"></i> ${task.technician}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge ${priorityClass} mb-1">${task.priority}</span><br>
+                            ${statusBadge}
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3 border-top border-secondary pt-2">
+                        <div class="col-4">
+                            <div class="timeline-label">Mulai</div>
+                            <div class="timeline-date">${startDisplay}</div>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="timeline-label">Deadline</div>
+                            <div class="timeline-date text-white">
+                                ${deadlineDisplay}
+                                ${editDateButton}
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="timeline-label">Selesai</div>
+                            <div class="timeline-date">${finishDisplay}</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3 bg-dark bg-opacity-25 p-2 rounded">
+                        <small class="text-white-50 fst-italic">${task.description}</small>
+                        <div>${scoreHtml}</div>
+                    </div>
+
+                    <div class="d-flex justify-content-end align-items-center mt-3">
+                        <button class="btn btn-warning btn-sm btn-action text-dark fw-bold" onclick="printPDF(${task.id})"><i class="fas fa-file-pdf"></i> PDF</button>
+                        ${btnAction}
+                        ${deleteButton}
+                    </div>
+                </div>
+            `;
+            taskListContainer.innerHTML += html;
+        });
+    }
+
+    function formatDateIndo(dateString) {
+        if(!dateString) return '-';
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        return new Date(dateString).toLocaleDateString('id-ID', options);
+    }
+
+    // --- Action Functions ---
+    function setStartDate(id) {
+        let tasks = JSON.parse(localStorage.getItem('spvTasks'));
+        const index = tasks.findIndex(t => t.id === id);
+        if(index !== -1) {
+            tasks[index].startedAtDate = new Date().toISOString().split('T')[0];
+            tasks[index].status = 'Process';
+            localStorage.setItem('spvTasks', JSON.stringify(tasks));
+            loadTasks(); updateStats();
+        }
+    }
+
+    function setFinishDate(id) {
+        let tasks = JSON.parse(localStorage.getItem('spvTasks'));
+        const index = tasks.findIndex(t => t.id === id);
+        if(index !== -1) {
+            tasks[index].completedAtDate = new Date().toISOString().split('T')[0];
+            tasks[index].completedTimestamp = new Date().getTime(); 
+            tasks[index].status = 'Done';
+            const deadline = new Date(tasks[index].deadline);
+            const finish = new Date(tasks[index].completedAtDate);
+            deadline.setHours(0,0,0,0); finish.setHours(0,0,0,0);
+            if (finish <= deadline) tasks[index].score = 100;
+            else tasks[index].score = -10;
+            localStorage.setItem('spvTasks', JSON.stringify(tasks));
+            loadTasks(); updateStats();
+        }
+    }
+
+    function editDate(id, type) {
+        let tasks = JSON.parse(localStorage.getItem('spvTasks'));
+        const task = tasks.find(t => t.id === id);
+        if(type === 'deadline') {
+            Swal.fire({
+                title: 'Reschedule Deadline',
+                html: 'Mengubah deadline akan mereset status tugas.',
+                input: 'date', inputValue: task.deadline,
+                background: '#1f2687', color: '#fff',
+                showCancelButton: true, confirmButtonText: 'Reschedule & Reset'
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const index = tasks.findIndex(t => t.id === id);
+                    tasks[index].deadline = result.value;
+                    tasks[index].status = 'Pending';
+                    tasks[index].startedAtDate = null;
+                    tasks[index].completedAtDate = null;
+                    tasks[index].score = null;
+                    localStorage.setItem('spvTasks', JSON.stringify(tasks));
+                    loadTasks(); updateStats();
+                }
+            });
+        }
+    }
+
+    function deleteTask(id) {
+        if(confirm('Hapus tugas ini?')) {
+            let tasks = JSON.parse(localStorage.getItem('spvTasks'));
+            tasks = tasks.filter(t => t.id !== id);
+            localStorage.setItem('spvTasks', JSON.stringify(tasks));
+            loadTasks(); updateStats();
+        }
+    }
+
+    function clearAllData() {
+        if(confirm('Hapus SEMUA data?')) { localStorage.removeItem('spvTasks'); loadTasks(); updateStats(); }
+    }
+
+    function updateStats() {
+        let tasks = JSON.parse(localStorage.getItem('spvTasks')) || [];
+        document.getElementById('totalTasks').innerText = tasks.length;
+        document.getElementById('pendingTasks').innerText = tasks.filter(t => t.status === 'Process').length;
+        document.getElementById('completedTasks').innerText = tasks.filter(t => t.status === 'Done').length;
+    }
+
+    // --- Excel ---
+    function backupExcel() {
+        const tasks = JSON.parse(localStorage.getItem('spvTasks')) || [];
+        if (tasks.length === 0) return Swal.fire({icon:'warning', title:'Data Kosong', background:'#1f2687', color:'#fff'});
+        const formattedData = tasks.map(item => ({ "ID": item.id, "Dokumen": item.docNumber, "Judul": item.title, "Karyawan": item.technician, "Prioritas": item.priority, "Deadline": item.deadline, "Status": item.status }));
+        const worksheet = XLSX.utils.json_to_sheet(formattedData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
+        XLSX.writeFile(workbook, `Backup_SPV_${new Date().toISOString().split('T')[0]}.xlsx`);
+    }
+
+    function restoreExcel(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                const restored = jsonData.map(row => ({
+                    id: row["ID"] || Date.now(), docNumber: row["Dokumen"], title: row["Judul"], technician: row["Karyawan"],
+                    priority: row["Prioritas"], deadline: row["Deadline"], status: row["Status"], description: "", createdAt: new Date().toLocaleDateString()
+                }));
+                localStorage.setItem('spvTasks', JSON.stringify(restored));
+                loadTasks(); updateStats();
+                Swal.fire({icon:'success', title:'Restore Berhasil', background:'#1f2687', color:'#fff'});
+            } catch (err) { Swal.fire({icon:'error', title:'Gagal', background:'#1f2687', color:'#fff'}); }
+        };
+        reader.readAsArrayBuffer(file);
+        input.value = '';
+    }
+
+    // --- FULL PDF GENERATION (SAMA UNTUK SPV & KARYAWAN) ---
+    function getBase64Image(img) {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        return canvas.toDataURL("image/jpeg"); 
+    }
+
+    async function printPDF(id) {
+        const { jsPDF } = window.jspdf;
+        let tasks = JSON.parse(localStorage.getItem('spvTasks'));
+        const task = tasks.find(t => t.id === id);
+        if(!task) return;
+
+        const doc = new jsPDF();
+        
+        // Header Background
+        doc.setFillColor(102, 126, 234); doc.rect(0, 0, 210, 40, 'F');
+        
+        // ADD LOCAL JPG TO PDF
+        try {
+            const logoImg = document.getElementById('companyLogo');
+            if(logoImg.complete && logoImg.naturalHeight !== 0) {
+                const imgData = getBase64Image(logoImg);
+                doc.addImage(imgData, 'JPEG', 15, 8, 24, 24); 
+            }
+        } catch(e) {
+            console.warn("Logo error");
+        }
+
+        doc.setTextColor(255, 255, 255); doc.setFontSize(22); doc.setFont("helvetica", "bold");
+        doc.text("SURAT PERINTAH KERJA", 105, 20, null, null, "center");
+        doc.setFontSize(12); doc.setFont("helvetica", "normal");
+        doc.text("SPV COMMAND CENTER - PT. SUPER ANDALAS STEEL", 105, 30, null, null, "center");
+
+        doc.setTextColor(0, 0, 0); doc.setDrawColor(200, 200, 200); doc.rect(15, 50, 180, 100); 
+
+        doc.setFontSize(12); doc.setFont("helvetica", "bold"); doc.text("INFORMASI TUGAS", 20, 60);
+        doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+
+        let scoreText = "-";
+        if(task.score === 100) scoreText = "100 (Tepat Waktu)";
+        if(task.score === -10) scoreText = "-10 (Terlambat)";
+
+        const details = [
+            { label: "Nomor Dokumen", value: task.docNumber },
+            { label: "Judul Pekerjaan", value: task.title },
+            { label: "Nama Karyawan", value: task.technician },
+            { label: "Prioritas", value: task.priority },
+            { label: "Tgl Mulai", value: task.startedAtDate ? formatDateIndo(task.startedAtDate) : '-' },
+            { label: "Deadline", value: formatDateIndo(task.deadline) },
+            { label: "Tgl Selesai", value: task.completedAtDate ? formatDateIndo(task.completedAtDate) : '-' },
+            { label: "Status Akhir", value: task.status },
+            { label: "Nilai Kinerja", value: scoreText }
+        ];
+
+        let lineY = 70;
+        details.forEach(item => {
+            doc.setFont("helvetica", "normal"); doc.text(`${item.label}`, 20, lineY); doc.text(`:`, 60, lineY);
+            if (item.label === "Deadline" || item.label === "Nilai Kinerja") doc.setFont("helvetica", "bold");
+            
+            if(item.label === "Nilai Kinerja" && task.score == 100) doc.setTextColor(0, 150, 0);
+            if(item.label === "Nilai Kinerja" && task.score == -10) doc.setTextColor(200, 0, 0);
+            
+            doc.text(`${item.value}`, 65, lineY);
+            doc.setTextColor(0, 0, 0);
+            lineY += 8;
+        });
+
+        doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.text("INSTRUKSI:", 20, 160);
+        doc.setFillColor(245, 245, 245); doc.rect(20, 165, 170, 30, 'FD'); 
+        doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50);
+        doc.text(doc.splitTextToSize(task.description, 160), 25, 175);
+
+        let sigY = 230;
+        doc.setTextColor(0,0,0); doc.text("Mengetahui,", 30, sigY); doc.text("Penerima Tugas,", 140, sigY);
+        doc.text("( Supervisor )", 30, sigY + 30); doc.text(`( ${task.technician} )`, 140, sigY + 30);
+        
+        doc.save(`${task.docNumber}.pdf`);
+    }
+</script>
+</body>
+</html>
