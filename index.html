@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
@@ -31,7 +31,7 @@
             color: #eceff1; /* Putih sedikit abu (Steel White) */
             min-height: 100vh;
             overflow-x: hidden;
-            
+
             /* --- ANTI SELECT (Agar tidak bisa di block text) --- */
             -webkit-user-select: none; /* Safari */
             -ms-user-select: none; /* IE 10 and IE 11 */
@@ -69,14 +69,14 @@
             background: #1a1a1a !important; /* Sidebar Gelap Solid */
             border-right: 2px solid var(--sas-red); /* Garis batas Merah */
             color: white;
-            z-index: 1045; 
+            z-index: 1045;
         }
 
         .swal2-container { z-index: 2000 !important; }
 
-        .offcanvas-header { 
+        .offcanvas-header {
             background: var(--primary-gradient);
-            border-bottom: 1px solid rgba(0,0,0,0.2); 
+            border-bottom: 1px solid rgba(0,0,0,0.2);
         }
         .btn-close-white { filter: invert(1); }
 
@@ -100,7 +100,7 @@
 
         .nav-link-custom i { width: 30px; text-align: center; margin-right: 10px; color: #ef5350; }
         .version-text { font-size: 0.8rem; color: #90a4ae; margin-top: auto; padding: 20px; text-align: center; }
-        
+
         .sidebar-divider {
             padding: 15px 20px 5px;
             font-size: 0.75rem;
@@ -126,7 +126,7 @@
             transition: transform 0.3s ease;
         }
 
-        h2, h4, h5 { 
+        h2, h4, h5 {
             text-shadow: none; /* Hilangkan glow ungu */
             font-weight: 700;
         }
@@ -144,7 +144,7 @@
             color: #fff;
             box-shadow: 0 0 10px rgba(211, 47, 47, 0.3);
         }
-        
+
         /* Placeholder color */
         ::placeholder { color: rgba(255, 255, 255, 0.4) !important; }
 
@@ -163,9 +163,9 @@
             letter-spacing: 1px;
         }
 
-        .btn-3d:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 15px rgba(211, 47, 47, 0.4); 
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(211, 47, 47, 0.4);
             background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
         }
 
@@ -184,31 +184,31 @@
             border: 1px solid rgba(255,255,255,0.05);
             border-left-width: 5px;
         }
-        
+
         .task-item:hover { background: rgba(60, 60, 60, 0.8); transform: translateX(5px); }
 
-        .stats-box { 
-            text-align: center; padding: 15px; border-radius: 6px; 
-            background: rgba(0,0,0,0.3); 
+        .stats-box {
+            text-align: center; padding: 15px; border-radius: 6px;
+            background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.1);
         }
-        
+
         .btn-action { margin-right: 5px; border-radius: 4px; }
         .doc-number { font-family: 'Courier New', monospace; letter-spacing: 1px; color: #90caf9; border-color: #90caf9 !important; background: rgba(144, 202, 249, 0.1) !important; color: #90caf9 !important;}
-        
+
         .score-badge-100 { color: #00e676; font-weight: bold; text-shadow: none; }
         .score-badge-min { color: #ff1744; font-weight: bold; text-shadow: none; }
-        
+
         .edit-link {
-            color: #b0bec5; 
-            margin-left: 8px; 
-            cursor: pointer; 
+            color: #b0bec5;
+            margin-left: 8px;
+            cursor: pointer;
             transition: all 0.2s;
             text-decoration: none;
             font-size: 0.85rem;
         }
         .edit-link:hover { color: var(--sas-red); transform: scale(1.1); }
-        
+
         .timeline-date { font-size: 0.9rem; color: #cfd8dc; margin-bottom: 3px; }
         .timeline-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #78909c; font-weight: bold; }
 
@@ -221,7 +221,7 @@
             border: none;
             box-shadow: none;
             animation: float 6s ease-in-out infinite;
-            background-color: transparent; 
+            background-color: transparent;
         }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
 
@@ -254,7 +254,7 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body d-flex flex-column p-0">
-        
+
         <div class="sidebar-divider">Ganti Mode</div>
         <a class="nav-link-custom text-danger" onclick="switchMode('SPV')">
             <i class="fas fa-user-tie"></i> Mode Supervisor
@@ -282,7 +282,7 @@
                 <i class="fas fa-info-circle"></i> About
             </a>
         </div>
-        
+
         <div class="version-text">
             <hr class="border-secondary">
             <p class="mb-0 fw-bold text-white">SPK SAS v1.7</p>
@@ -410,7 +410,7 @@
     import { getFirestore, collection, addDoc, setDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
     // --- KONFIGURASI FIREBASE ---
-const firebaseConfig = {
+    const firebaseConfig = {
       apiKey: "AIzaSyBh46pSL0RbZEAxsNHuvBZ6LLq6ITAWPQk",
       authDomain: "hhuuui.firebaseapp.com",
       projectId: "hhuuui",
@@ -425,7 +425,7 @@ const firebaseConfig = {
     try {
         app = initializeApp(firebaseConfig);
         db = getFirestore(app);
-        
+
         // MENGAKTIFKAN PERSISTENCE
         enableIndexedDbPersistence(db).catch((err) => {
             if (err.code == 'failed-precondition') {
@@ -442,17 +442,17 @@ const firebaseConfig = {
     }
 
     // --- GLOBAL VARIABLES & EXPORTS FOR HTML ---
-    window.db = db; 
-    
+    window.db = db;
+
     // --- APP LOGIC ---
-    const primaryColor = '#d32f2f'; 
+    const primaryColor = '#d32f2f';
     const bgDark = '#212121';
-    const CONNECTION_CODE = "SASPIPA"; 
+    const CONNECTION_CODE = "SASPIPA";
 
     // --- INITIALIZATION ---
-    document.addEventListener('DOMContentLoaded', () => { 
-        window.initMode(); 
-        
+    document.addEventListener('DOMContentLoaded', () => {
+        window.initMode();
+
         // START REALTIME DISINI (PASTIKAN HALAMAN SIAP)
         if(db) initRealtimeData();
     });
@@ -462,33 +462,29 @@ const firebaseConfig = {
         console.log("Memulai Listener Realtime...");
         try {
             const q = query(collection(db, "tasks"));
-            
+
             // Listener aktif
             onSnapshot(q, (snapshot) => {
                 let tasks = [];
                 snapshot.forEach((doc) => {
-                    tasks.push({ ...doc.data(), id: doc.id }); 
+                    tasks.push({ ...doc.data(), id: doc.id });
                 });
-                
+
                 // Debugging di Console (Tekan F12 > Console untuk cek)
                 console.log("DATA UPDATE DITERIMA:", tasks.length, "item");
-                
+
                 // SIMPAN KE LOCALSTORAGE (Backup/Cache)
                 localStorage.setItem('spvTasks', JSON.stringify(tasks));
-                
+
                 // RENDER UI SECARA OTOMATIS
                 renderTasks(tasks);
                 updateStats(tasks);
-                
-                // Tampilkan notifikasi kecil jika data masuk (Opsional, untuk debug)
-                // const Toast = Swal.mixin({toast: true, position: 'bottom-end', showConfirmButton: false, timer: 1000, background: '#333', color: '#fff'});
-                // Toast.fire({icon: 'success', title: 'Data Sinkron'});
 
             }, (error) => {
                 console.error("Realtime Error (Code: " + error.code + "):", error);
                 let msg = 'Koneksi Terputus.';
                 if(error.code === 'permission-denied') msg = 'IZIN DITOLAK: Cek Rules Firebase Anda!';
-                
+
                 Swal.fire({
                     icon: 'error',
                     title: 'Gagal Memuat Data',
@@ -507,7 +503,7 @@ const firebaseConfig = {
     if(searchInput) {
         searchInput.addEventListener('input', () => {
             let tasks = JSON.parse(localStorage.getItem('spvTasks')) || [];
-            renderTasks(tasks); 
+            renderTasks(tasks);
         });
     }
 
@@ -516,9 +512,9 @@ const firebaseConfig = {
         const currentMode = localStorage.getItem('appMode') || 'SPV';
         const searchInputEl = document.getElementById('searchInput');
         const searchText = searchInputEl ? searchInputEl.value.toLowerCase() : '';
-        
+
         // Filter
-        const filteredTasks = tasksData.filter(task => 
+        const filteredTasks = tasksData.filter(task =>
             (task.technician && task.technician.toLowerCase().includes(searchText)) ||
             (task.title && task.title.toLowerCase().includes(searchText))
         );
@@ -530,8 +526,8 @@ const firebaseConfig = {
 
         if (filteredTasks.length === 0) {
             if(emptyState) {
-                container.appendChild(emptyState); 
-                emptyState.style.display = 'block'; 
+                container.appendChild(emptyState);
+                emptyState.style.display = 'block';
                 const pText = emptyState.querySelector('p');
                 if(pText) {
                     if(searchText) pText.innerText = "Tidak ditemukan data tersebut.";
@@ -539,16 +535,15 @@ const firebaseConfig = {
                 }
             }
             return;
-        } else { 
-            if(emptyState) emptyState.style.display = 'none'; 
+        } else {
+            if(emptyState) emptyState.style.display = 'none';
         }
 
         // Sort: Tinggi first, lalu berdasarkan ID/Waktu
         filteredTasks.sort((a, b) => {
             if (a.priority === 'Tinggi' && b.priority !== 'Tinggi') return -1;
             if (a.priority !== 'Tinggi' && b.priority === 'Tinggi') return 1;
-            // Jika prioritas sama, yang terbaru di atas (asumsi ID timestamp)
-            return b.id.localeCompare(a.id); 
+            return b.id.localeCompare(a.id);
         });
 
         filteredTasks.forEach(task => {
@@ -600,7 +595,7 @@ const firebaseConfig = {
                             ${statusBadge}
                         </div>
                     </div>
-                    
+
                     <div class="row mt-3 border-top border-secondary pt-2">
                         <div class="col-4">
                             <div class="timeline-label">Mulai</div>
@@ -644,9 +639,9 @@ const firebaseConfig = {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
 
-            const docId = Date.now().toString(); 
+            const docId = Date.now().toString();
             const newTask = {
-                id: docId, 
+                id: docId,
                 docNumber: document.getElementById('docNumber').value,
                 title: document.getElementById('jobTitle').value,
                 technician: document.getElementById('technician').value,
@@ -664,10 +659,10 @@ const firebaseConfig = {
             try {
                 await setDoc(doc(db, "tasks", docId), newTask);
                 document.getElementById('orderForm').reset();
-                Swal.fire({ 
-                    icon: 'success', 
-                    title: 'Berhasil!', 
-                    text: `Dokumen ${newTask.docNumber} telah dibuat.`, 
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: `Dokumen ${newTask.docNumber} telah dibuat.`,
                     background: bgDark, color: '#fff', confirmButtonColor: primaryColor,
                     timer: 1500, showConfirmButton: false
                 });
@@ -682,11 +677,11 @@ const firebaseConfig = {
     }
 
     // --- EXPOSE ACTIONS TO WINDOW ---
-    
+
     window.actionSetStart = async (id) => {
         const d = new Date();
         const localDate = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-        
+
         try {
             const taskRef = doc(db, "tasks", id);
             await updateDoc(taskRef, {
@@ -699,12 +694,12 @@ const firebaseConfig = {
     window.actionSetFinish = async (id, deadlineStr) => {
         const d = new Date();
         const localDate = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-        
+
         // Scoring logic
         const deadlineDate = new Date(deadlineStr);
         const finishDate = new Date(localDate);
         deadlineDate.setHours(0,0,0,0); finishDate.setHours(0,0,0,0);
-        
+
         let scoreVal = (finishDate <= deadlineDate) ? 100 : -10;
 
         try {
@@ -718,12 +713,36 @@ const firebaseConfig = {
         } catch(e) { console.error(e); }
     };
 
+    // --- [CUSTOM POP-UP] DELETE TASK ---
     window.actionDelete = async (id) => {
-        if(confirm('Hapus tugas ini?')) {
-            try {
-                await deleteDoc(doc(db, "tasks", id));
-            } catch(e) { console.error(e); }
-        }
+        Swal.fire({
+            title: 'Hapus Tugas?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: primaryColor,
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+            background: bgDark,
+            color: '#fff'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await deleteDoc(doc(db, "tasks", id));
+                    Swal.fire({
+                        title: 'Terhapus!',
+                        text: 'Data tugas telah dihapus.',
+                        icon: 'success',
+                        background: bgDark,
+                        color: '#fff',
+                        confirmButtonColor: primaryColor,
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                } catch(e) { console.error(e); }
+            }
+        });
     };
 
     window.actionEditDate = (id, currentDeadline) => {
@@ -760,7 +779,7 @@ const firebaseConfig = {
         const total = document.getElementById('totalTasks');
         const pending = document.getElementById('pendingTasks');
         const completed = document.getElementById('completedTasks');
-        
+
         if(total) total.innerText = tasks.length;
         if(pending) pending.innerText = tasks.filter(t => t.status === 'Process').length;
         if(completed) completed.innerText = tasks.filter(t => t.status === 'Done').length;
@@ -769,7 +788,7 @@ const firebaseConfig = {
     // --- SIDEBAR & AUTH UI LOGIC ---
     window.closeSidebar = () => {
         const sidebarEl = document.getElementById('sidebarMenu');
-        const sidebar = bootstrap.Offcanvas.getInstance(sidebarEl); 
+        const sidebar = bootstrap.Offcanvas.getInstance(sidebarEl);
         if (sidebar) sidebar.hide();
     };
 
@@ -822,7 +841,7 @@ const firebaseConfig = {
                 if (result.isConfirmed) {
                     localStorage.setItem('isFirestoreConnected', 'true');
                     Swal.fire({
-                        icon: 'success', title: 'Terhubung!', 
+                        icon: 'success', title: 'Terhubung!',
                         text: 'Perangkat terhubung Realtime.',
                         background: bgDark, color: '#fff', confirmButtonColor: primaryColor,
                         timer: 1500, showConfirmButton: false
@@ -855,12 +874,12 @@ const firebaseConfig = {
         const menuInviteCode = document.getElementById('menuInviteCode');
 
         if (mode === 'Karyawan') {
-            if(createSection) createSection.style.display = 'none'; 
-            if(listSection) listSection.className = 'col-lg-12'; 
+            if(createSection) createSection.style.display = 'none';
+            if(listSection) listSection.className = 'col-lg-12';
             if(listSection) listSection.querySelector('.glass-card').style.borderTopColor = '#607d8b';
-            if(adminTools) adminTools.style.display = 'none'; 
+            if(adminTools) adminTools.style.display = 'none';
             // Karyawan JUGA BISA LIHAT DAN SALIN KODE (READ ONLY)
-            if(menuInviteCode) menuInviteCode.style.display = 'flex'; 
+            if(menuInviteCode) menuInviteCode.style.display = 'flex';
             if(badge) {
                 badge.innerText = 'Karyawan Mode';
                 badge.classList.add('karyawan');
@@ -912,21 +931,64 @@ const firebaseConfig = {
         }, 300);
     };
 
-    window.backupExcel = () => {
+window.backupExcel = () => {
         const tasks = JSON.parse(localStorage.getItem('spvTasks')) || [];
         if (tasks.length === 0) return Swal.fire({icon:'warning', title:'Data Kosong', background:bgDark, color:'#fff'});
-        const formattedData = tasks.map(item => ({ "ID": item.id, "Dokumen": item.docNumber, "Judul": item.title, "Karyawan": item.technician, "Prioritas": item.priority, "Deadline": item.deadline, "Status": item.status }));
+
+        const formattedData = tasks.map(item => ({
+            "ID": item.id, "Dokumen": item.docNumber, "Judul": item.title,
+            "Karyawan": item.technician, "Prioritas": item.priority,
+            "Deadline": item.deadline, "Status": item.status
+        }));
+
         const worksheet = XLSX.utils.json_to_sheet(formattedData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
-        XLSX.writeFile(workbook, `Backup_SAS_${new Date().toISOString().split('T')[0]}.xlsx`);
+
+        const fileName = `Backup_SAS_${new Date().toISOString().split('T')[0]}.xlsx`;
+
+        // Cek apakah berjalan di Android WebView
+        if (typeof Android !== 'undefined' && Android.saveFile) {
+            // Generate Base64 String dari Excel
+            const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'base64' });
+            // MimeType Excel
+            Android.saveFile(wbout, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+        } else {
+            // Browser Biasa
+            XLSX.writeFile(workbook, fileName);
+        }
     };
 
+    // --- [CUSTOM POP-UP] RESET ALL DATA ---
     window.clearAllData = async () => {
-        if(confirm('Reset Data Lokal? (Data di Database tetap aman)')) { 
-            localStorage.removeItem('spvTasks'); 
-            location.reload();
-        }
+        Swal.fire({
+            title: 'Reset Semua Data?',
+            text: "Ini hanya menghapus Cache Lokal browser, data di Database aman. Lanjutkan?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: primaryColor,
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Reset!',
+            cancelButtonText: 'Batal',
+            background: bgDark,
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('spvTasks');
+                Swal.fire({
+                    title: 'Reset Berhasil',
+                    text: 'Halaman akan dimuat ulang.',
+                    icon: 'success',
+                    background: bgDark,
+                    color: '#fff',
+                    confirmButtonColor: primaryColor,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        });
     };
 
     // --- PDF GENERATION ---
@@ -936,40 +998,65 @@ const firebaseConfig = {
         canvas.height = img.naturalHeight;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
-        return canvas.toDataURL("image/jpeg"); 
+        return canvas.toDataURL("image/jpeg");
     }
 
+// --- FUNGSI PRINT PDF LENGKAP ---
     window.printPDF = (id) => {
         const { jsPDF } = window.jspdf;
+        // Ambil data dari LocalStorage
         let tasks = JSON.parse(localStorage.getItem('spvTasks'));
-        const task = tasks.find(t => t.id == id); 
-        if(!task) return;
+        const task = tasks.find(t => t.id == id);
+
+        if(!task) return Swal.fire('Error', 'Data tidak ditemukan', 'error');
 
         const doc = new jsPDF();
-        doc.setFillColor(198, 40, 40); doc.rect(0, 0, 210, 40, 'F');
-        
+
+        // 1. HEADER (Latar Merah)
+        doc.setFillColor(198, 40, 40); // Merah Gelap
+        doc.rect(0, 0, 210, 40, 'F'); // Blok Header
+
+        // 2. LOGO (Coba ambil dari elemen img di HTML)
         try {
             const logoImg = document.getElementById('companyLogo');
-            if(logoImg.complete && logoImg.naturalHeight !== 0) {
+            if(logoImg && logoImg.complete && logoImg.naturalHeight !== 0) {
                 const imgData = getBase64Image(logoImg);
+                // Tambahkan gambar (Format, X, Y, Width, Height)
                 doc.addImage(imgData, 'PNG', 15, 5, 30, 30);
             }
-        } catch(e) { console.warn("Logo error"); }
+        } catch(e) {
+            console.warn("Logo tidak dapat dimuat di PDF:", e);
+        }
 
-        doc.setTextColor(255, 255, 255); doc.setFontSize(22); doc.setFont("helvetica", "bold");
+        // 3. JUDUL DOKUMEN (Teks Putih di Header)
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(22);
+        doc.setFont("helvetica", "bold");
         doc.text("SURAT PERINTAH KERJA", 105, 20, null, null, "center");
-        doc.setFontSize(12); doc.setFont("helvetica", "normal");
+
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
         doc.text("SPK COMMAND CENTER - PT. SUPER ANDALAS STEEL", 105, 30, null, null, "center");
 
-        doc.setTextColor(0, 0, 0); doc.setDrawColor(200, 200, 200); doc.rect(15, 50, 180, 100); 
+        // 4. KOTAK KONTEN UTAMA
+        doc.setTextColor(0, 0, 0); // Balik ke Hitam
+        doc.setDrawColor(200, 200, 200); // Garis Abu-abu
+        doc.rect(15, 50, 180, 100); // Kotak Utama
 
-        doc.setFontSize(12); doc.setFont("helvetica", "bold"); doc.text("INFORMASI TUGAS", 20, 60);
-        doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+        // 5. ISI DATA
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+        doc.text("INFORMASI TUGAS", 20, 60);
 
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+
+        // Logic Nilai Kinerja
         let scoreText = "-";
         if(task.score === 100) scoreText = "100 (Tepat Waktu)";
-        if(task.score === -10) scoreText = "-10 (Terlambat)";
+        else if(task.score === -10) scoreText = "-10 (Terlambat)";
 
+        // Daftar Data yang akan dicetak
         const details = [
             { label: "Nomor Dokumen", value: task.docNumber },
             { label: "Judul Pekerjaan", value: task.title },
@@ -982,26 +1069,73 @@ const firebaseConfig = {
             { label: "Nilai Kinerja", value: scoreText }
         ];
 
+        // Loop untuk mencetak baris per baris
         let lineY = 70;
         details.forEach(item => {
-            doc.setFont("helvetica", "normal"); doc.text(`${item.label}`, 20, lineY); doc.text(`:`, 60, lineY);
+            doc.setFont("helvetica", "normal");
+            doc.text(`${item.label}`, 20, lineY);
+            doc.text(`:`, 60, lineY);
+
+            // Highlight khusus untuk Deadline dan Nilai
             if (item.label === "Deadline" || item.label === "Nilai Kinerja") doc.setFont("helvetica", "bold");
-            if(item.label === "Nilai Kinerja" && task.score == 100) doc.setTextColor(0, 150, 0);
-            if(item.label === "Nilai Kinerja" && task.score == -10) doc.setTextColor(200, 0, 0);
+
+            // Warna khusus Nilai
+            if(item.label === "Nilai Kinerja") {
+                 if(task.score == 100) doc.setTextColor(0, 150, 0); // Hijau
+                 else if(task.score == -10) doc.setTextColor(200, 0, 0); // Merah
+            }
+
             doc.text(`${item.value}`, 65, lineY);
+
+            // Reset Warna ke Hitam
             doc.setTextColor(0, 0, 0);
             lineY += 8;
         });
 
-        doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.text("INSTRUKSI:", 20, 160);
-        doc.setFillColor(245, 245, 245); doc.rect(20, 165, 170, 30, 'FD'); 
-        doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50);
-        doc.text(doc.splitTextToSize(task.description, 160), 25, 175);
+        // 6. INSTRUKSI / DESKRIPSI
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "bold");
+        doc.text("INSTRUKSI DETIL:", 20, 160);
 
+        // Kotak Abu-abu untuk instruksi
+        doc.setFillColor(245, 245, 245);
+        doc.rect(20, 165, 170, 30, 'FD'); // Fill and Draw
+
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(50, 50, 50);
+        // Split text agar tidak menabrak pinggir (multiline)
+        const splitDesc = doc.splitTextToSize(task.description || "Tidak ada instruksi khusus.", 160);
+        doc.text(splitDesc, 25, 175);
+
+        // 7. TANDA TANGAN
         let sigY = 230;
-        doc.setTextColor(0,0,0); doc.text("Mengetahui,", 30, sigY); doc.text("Penerima Tugas,", 140, sigY);
-        doc.text("( Supervisor )", 30, sigY + 30); doc.text(`( ${task.technician} )`, 140, sigY + 30);
-        doc.save(`${task.docNumber}.pdf`);
+        doc.setTextColor(0,0,0);
+
+        // Kiri (SPV)
+        doc.text("Mengetahui,", 30, sigY);
+        doc.text("( Supervisor )", 30, sigY + 30);
+
+        // Kanan (Teknisi)
+        doc.text("Penerima Tugas,", 140, sigY);
+        doc.text(`( ${task.technician} )`, 140, sigY + 30);
+
+        // --- BAGIAN SIMPAN FILE (PENTING UNTUK ANDROID) ---
+        const fileName = `${task.docNumber}.pdf`;
+
+        // Cek apakah berjalan di Android WebView
+        if (typeof Android !== 'undefined' && Android.saveFile) {
+            try {
+                // Generate Data URI (Base64)
+                const base64PDF = doc.output('datauristring');
+                // Panggil fungsi Kotlin di MainActivity
+                Android.saveFile(base64PDF, "application/pdf", fileName);
+            } catch(e) {
+                alert("Gagal mengirim ke Android: " + e.message);
+            }
+        } else {
+            // Fallback jika dibuka di browser laptop/chrome biasa
+            doc.save(fileName);
+        }
     };
 
     // --- MENU HANDLERS ---
@@ -1101,7 +1235,7 @@ const firebaseConfig = {
                 const workbook = XLSX.read(data, { type: 'array' });
                 const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
                 const restored = jsonData.map(row => ({
-                    id: row["ID"] ? String(row["ID"]) : String(Date.now()), 
+                    id: row["ID"] ? String(row["ID"]) : String(Date.now()),
                     docNumber: row["Dokumen"], title: row["Judul"], technician: row["Karyawan"],
                     priority: row["Prioritas"], deadline: row["Deadline"], status: row["Status"], description: "", createdAt: new Date().toLocaleDateString()
                 }));
